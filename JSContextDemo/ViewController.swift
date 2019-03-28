@@ -18,7 +18,8 @@ class ViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         webview.delegate = self
-        let urlStr = "https://hacnm2g:123456@www.hkg2vl1716.p2g.netd2.hsbc.com.hk/app-mobile"
+        webview.backgroundColor = .green
+        let urlStr = "https://www.baidu.com/"
 //        let url = Bundle.main.url(forResource: "web", withExtension: "html")
         let url = URL(string: urlStr)
         webview.loadRequest(URLRequest(url: url!))
@@ -26,7 +27,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
 
     @IBAction func textfieldChanged(_ sender: UITextField) {
         self.webview.stringByEvaluatingJavaScript(from: "changeText('"+sender.text!+"')")
-
     }
 
     func webViewDidStartLoad(_ webView: UIWebView) {
@@ -40,7 +40,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
         ctx.setObject(unsafeBitCast(textChanged, to: AnyObject.self), forKeyedSubscript: "textChanged" as (NSCopying & NSObjectProtocol)!)
     }
 
-    func webViewDidFinishLoad(_ webView: UIWebView) {}
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        webview.scrollView.contentInset = UIEdgeInsetsMake(60, 0, 60, 0)
+    }
 
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         if authenticated == nil {
@@ -73,7 +75,7 @@ extension ViewController: URLSessionDelegate {
             completionHandler(.useCredential, credential)
             return
         } else if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic {
-            let credential = URLCredential(user: "hacnm2g", password: "123456", persistence: URLCredential.Persistence.forSession)
+            let credential = URLCredential(user: "admin", password: "123456", persistence: URLCredential.Persistence.forSession)
             completionHandler(.useCredential, credential)
             return
         }
